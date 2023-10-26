@@ -31,11 +31,6 @@ const SignUpForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <Center>
-          <Heading as='h1' size='lg'>
-            Create new account
-          </Heading>
-        </Center>
         <FormControl isInvalid={!!errors.email}>
           <FormLabel>Email address</FormLabel>
           <Input type='email' {...register('email')} />

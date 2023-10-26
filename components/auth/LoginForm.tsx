@@ -24,11 +24,6 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <Center>
-          <Heading as='h1' size='lg'>
-            Login to your account
-          </Heading>
-        </Center>
         <FormControl isInvalid={!!errors.email}>
           <FormLabel>Email address</FormLabel>
           <Input type='email' {...register('email')} />
