@@ -11,7 +11,7 @@ export default function Home() {
 
         <UnorderedList>
           <ListItem><Button colorScheme='blue'>Button</Button></ListItem>
-          <ListItem><Code colorScheme='red' children="var chakra = 'awesome!'" /></ListItem>
+          <ListItem><Code colorScheme='red'>var chakra = &apos;awesome!&apos;</Code></ListItem>
           <ListItem>
             <FormControl display='flex' alignItems='center'>
               <FormLabel htmlFor='email-alerts' mb='0'>
