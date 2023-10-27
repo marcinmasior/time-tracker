@@ -1,12 +1,12 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-// import useCustomToast from "@/hooks/useCustomToast";
 import {useRouter} from "next/navigation";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {useToast} from "@/components/ui/use-toast";
 
 // Define your schema using Zod
 const formSchema = z.object({
@@ -19,7 +19,7 @@ const formSchema = z.object({
 });
 
 const SignUpForm: React.FC = () => {
-  // const toast = useCustomToast();
+  const { toast } = useToast()
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,9 +41,17 @@ const SignUpForm: React.FC = () => {
 
     if(resData.status === 'success'){
       router.push('/auth/login');
-      // toast.success(resData.message, resData.description);
+
+      toast({
+        title: resData.message,
+        description: resData.description,
+      })
     }else{
-      // toast.error(resData.message);
+      toast({
+        title: resData.message,
+        description: resData.description,
+        variant: "destructive"
+      })
     }
   }
 

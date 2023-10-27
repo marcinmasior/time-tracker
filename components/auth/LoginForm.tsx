@@ -1,13 +1,13 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {signIn} from "next-auth/react";
-// import useCustomToast from "@/hooks/useCustomToast";
 import {useRouter} from "next/navigation";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {toast, useToast} from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -17,7 +17,7 @@ const formSchema = z.object({
 type Inputs = z.infer<typeof formSchema>;
 
 const LoginForm: React.FC = () => {
-  // const toast = useCustomToast();
+  const { toast } = useToast()
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -32,15 +32,23 @@ const LoginForm: React.FC = () => {
     const response = await signIn('credentials', {...values, redirect: false})
 
     if(!response) {
-      // toast.error('Something went wrong! Try again later.');
+      toast({
+        title: 'Something went wrong! Try again later.',
+        variant: "destructive"
+      })
       return;
     }
 
     if(!response.ok && response.status === 401){
-      // toast.error('Incorrect email or password.')
+      toast({
+        title: 'Incorrect email or password.',
+        variant: "destructive"
+      })
     }else{
       router.push('/dashboard')
-      // toast.success('Welcome! You have logged in successfully.')
+      toast({
+        title: 'Welcome! You have logged in successfully'
+      })
     }
   }
 

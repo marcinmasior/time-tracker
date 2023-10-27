@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import {Providers} from "@/context/providers";
 import './globals.css'
+import {Toaster} from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: 'Time Tracker',
@@ -19,6 +20,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
+        <Toaster />
       </body>
     </html>
   )
