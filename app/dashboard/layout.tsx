@@ -2,6 +2,7 @@
 
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
+import Navbar from "@/components/shared/navbar/Navbar";
 
 export default function DashboardLayout({
                                           children,
@@ -17,9 +18,12 @@ export default function DashboardLayout({
     },
   })
 
-  return (
-    <>
-      {children}
-    </>
+  return (<>
+      <Navbar />
+      <main className="container mt-12">
+        {children}
+      </main>
+  </>
+
   )
 }

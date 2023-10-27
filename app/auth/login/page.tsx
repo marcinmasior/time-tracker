@@ -5,6 +5,7 @@ import LoginForm from "@/components/auth/LoginForm";
 import Link from 'next/link'
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 
 export default function Login() {
   const router = useRouter();
@@ -13,14 +14,17 @@ export default function Login() {
   if(session) router.push('/dashboard');
 
   return <>
-    <div>
-      Login to your account
-
-      <LoginForm></LoginForm>
-
-      Or
-
-      <Link href='/auth/signup'>Sign Up</Link>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <LoginForm></LoginForm>
+      </CardContent>
+      <CardFooter className="flex-col gap-3">
+        <div>Don't have an account?</div>
+        <div><Link href='/auth/signup'>Sign Up here</Link></div>
+      </CardFooter>
+    </Card>
   </>
 }

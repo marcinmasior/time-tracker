@@ -1,14 +1,11 @@
-// import useCustomToast from "@/hooks/useCustomToast";
-import {useRouter} from "next/navigation";
 import {signOut } from "next-auth/react";
 import React from "react";
-import { Button } from "../ui/button";
 import {useToast} from "@/components/ui/use-toast";
+import {DropdownMenuItem} from "@/components/ui/dropdown-menu";
 
 
-export default function LogoutButton() {
+export default function LogoutMenuItem() {
   const { toast } = useToast()
-  const router = useRouter();
 
   const customSignOut = async () => {
     toast({
@@ -17,6 +14,8 @@ export default function LogoutButton() {
     await signOut({ redirect: false });
   }
   return (
-    <Button onClick={() =>{ customSignOut() }}>Logout</Button>
+    <DropdownMenuItem onClick={() =>{ customSignOut() }}>
+      Log out
+    </DropdownMenuItem>
   )
 }

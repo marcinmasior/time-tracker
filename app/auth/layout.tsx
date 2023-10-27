@@ -4,7 +4,7 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <div className="container w-4/12 pt-40">
       {children}
     </div>
   )
