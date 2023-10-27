@@ -4,6 +4,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {Stack, Heading, FormControl, FormLabel, Input, Button, FormErrorMessage, Center} from "@chakra-ui/react";
 import { z } from 'zod';
+import useCustomToast from "@/hooks/useCustomToast";
+import {useRouter} from "next/navigation";
 
 // Define your schema using Zod
 const schema = z.object({
@@ -18,12 +20,29 @@ const schema = z.object({
 type Inputs = z.infer<typeof schema>;
 
 const SignUpForm: React.FC = () => {
+  const toast = useCustomToast();
+  const router = useRouter();
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>({
     resolver: zodResolver(schema)
   });
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async data => {
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+
+    const resData =  await response.json();
+
+    console.log(resData)
+
+    if(resData.status === 'success'){
+      router.push('/auth/login');
+      toast.success(resData.message, resData.description);
+    }else{
+      toast.error(resData.message);
+    }
   };
 
   const password = watch("password");
