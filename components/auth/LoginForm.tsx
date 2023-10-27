@@ -1,63 +1,81 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {Stack, FormControl, FormLabel, Input, Button, FormErrorMessage } from "@chakra-ui/react";
 import { z } from 'zod';
 import {signIn} from "next-auth/react";
-import useCustomToast from "@/hooks/useCustomToast";
+// import useCustomToast from "@/hooks/useCustomToast";
 import {useRouter} from "next/navigation";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 
-const schema = z.object({
-  email: z.string().email("Nieprawidłowy adres e-mail"),
+const formSchema = z.object({
+  email: z.string().email(),
   password: z.string(),
 });
 
-type Inputs = z.infer<typeof schema>;
+type Inputs = z.infer<typeof formSchema>;
 
 const LoginForm: React.FC = () => {
-  const toast = useCustomToast();
+  // const toast = useCustomToast();
   const router = useRouter();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
-    resolver: zodResolver(schema)
-  });
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  })
 
-  const onSubmit: SubmitHandler<Inputs> = async data => {
-    const response = await signIn('credentials', {...data, redirect: false})
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await signIn('credentials', {...values, redirect: false})
 
     if(!response) {
-      toast.error('Something went wrong! Try again later.');
+      // toast.error('Something went wrong! Try again later.');
       return;
     }
 
     if(!response.ok && response.status === 401){
-      toast.error('Incorrect email or password.')
+      // toast.error('Incorrect email or password.')
     }else{
       router.push('/dashboard')
-      toast.success('Welcome! You have logged in successfully.')
+      // toast.success('Welcome! You have logged in successfully.')
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <FormControl isInvalid={!!errors.email}>
-          <FormLabel>Email address</FormLabel>
-          <Input type='email' {...register('email')} />
-          <FormErrorMessage>
-            {errors.email && errors.email.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={!!errors.password}>
-          <FormLabel>Password</FormLabel>
-          <Input type='password' {...register('password')} />
-          <FormErrorMessage>
-            {errors.password && errors.password.message}
-          </FormErrorMessage>
-        </FormControl>
-        <Button colorScheme='blue' type="submit">Login</Button>
-      </Stack>
-    </form>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email address</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Login</Button>
+      </form>
+    </Form>
   );
 };
 

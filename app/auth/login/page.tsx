@@ -2,35 +2,25 @@
 
 import React from "react";
 import LoginForm from "@/components/auth/LoginForm";
-import {AbsoluteCenter, Box, Center, Divider, Heading} from "@chakra-ui/react";
 import Link from 'next/link'
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
-export default function Page() {
+export default function Login() {
   const router = useRouter();
 
   const { data: session } = useSession()
   if(session) router.push('/dashboard');
 
   return <>
-    <Center marginBottom="12">
-      <Heading as='h1' size='lg'>
-        Login to your account
-      </Heading>
-    </Center>
+    <div>
+      Login to your account
 
-    <LoginForm></LoginForm>
+      <LoginForm></LoginForm>
 
-    <Box position='relative' marginTop='2rem'>
-      <Divider />
-      <AbsoluteCenter bg='white' px='4'>
-        Or
-      </AbsoluteCenter>
-    </Box>
+      Or
 
-    <Center marginTop='2rem'>
       <Link href='/auth/signup'>Sign Up</Link>
-    </Center>
+    </div>
   </>
 }

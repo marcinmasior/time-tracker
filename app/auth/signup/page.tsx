@@ -2,35 +2,25 @@
 
 import React from "react";
 import SignUpForm from "@/components/auth/SignUpForm";
-import {AbsoluteCenter, Box, Center, Divider, Heading} from "@chakra-ui/react";
 import Link from 'next/link'
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
-export default function Page() {
+export default function SignUp() {
   const router = useRouter();
 
   const { data: session } = useSession()
   if(session) router.push('/dashboard');
 
   return <>
-    <Center marginBottom={12}>
-      <Heading as='h1' size='lg'>
-        Create new account
-      </Heading>
-    </Center>
+    <div>
+      Create new account
 
-    <SignUpForm></SignUpForm>
+      <SignUpForm></SignUpForm>
 
-    <Box position='relative' marginTop='2rem'>
-      <Divider />
-      <AbsoluteCenter bg='white' px='4'>
-        Or
-      </AbsoluteCenter>
-    </Box>
+      Or
 
-    <Center marginTop='2rem'>
       <Link href='/auth/login'>Sign In</Link>
-    </Center>
+    </div>
   </>
 }
