@@ -1,4 +1,3 @@
-"use client"
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -65,7 +64,7 @@ const SignUpForm: React.FC = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={!!errors.passwordConfirmation}>
-          <FormLabel>Password Confirmation</FormLabel>
+          <FormLabel>Re-enter your password</FormLabel>
           <Input type='password' {...register('passwordConfirmation', {
             validate: value => value === password || "The passwords do not match"
           })} />

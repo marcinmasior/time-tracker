@@ -1,9 +1,11 @@
-"use client"
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {Stack, Heading, FormControl, FormLabel, Input, Button, FormErrorMessage, Center} from "@chakra-ui/react";
+import {Stack, FormControl, FormLabel, Input, Button, FormErrorMessage } from "@chakra-ui/react";
 import { z } from 'zod';
+import {signIn} from "next-auth/react";
+import useCustomToast from "@/hooks/useCustomToast";
+import {useRouter} from "next/navigation";
 
 const schema = z.object({
   email: z.string().email("Nieprawidłowy adres e-mail"),
@@ -13,12 +15,27 @@ const schema = z.object({
 type Inputs = z.infer<typeof schema>;
 
 const LoginForm: React.FC = () => {
+  const toast = useCustomToast();
+  const router = useRouter();
+
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
     resolver: zodResolver(schema)
   });
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async data => {
+    const response = await signIn('credentials', {...data, redirect: false})
+
+    if(!response) {
+      toast.error('Something went wrong! Try again later.');
+      return;
+    }
+
+    if(!response.ok && response.status === 401){
+      toast.error('Incorrect email or password.')
+    }else{
+      router.push('/dashboard')
+      toast.success('Welcome! You have logged in successfully.')
+    }
   };
 
   return (

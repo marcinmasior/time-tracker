@@ -1,9 +1,18 @@
+'use client'
+
 import React from "react";
 import LoginForm from "@/components/auth/LoginForm";
 import {AbsoluteCenter, Box, Center, Divider, Heading} from "@chakra-ui/react";
 import Link from 'next/link'
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
+  const { data: session } = useSession()
+  if(session) router.push('/dashboard');
+
   return <>
     <Center marginBottom="12">
       <Heading as='h1' size='lg'>
