@@ -14,8 +14,6 @@ const formSchema = z.object({
   password: z.string(),
 });
 
-type Inputs = z.infer<typeof formSchema>;
-
 const LoginForm: React.FC = () => {
   const { toast } = useToast()
   const router = useRouter();

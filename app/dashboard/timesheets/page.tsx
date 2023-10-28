@@ -1,13 +1,19 @@
+"use client"
+
 import PageHeader from "@/components/shared/page/PageHeader";
 import {Button} from "@/components/ui/button";
 import EmptyDataPlaceholder from "@/components/shared/data/EmptyDataPlaceholder";
+import DialogWithContent from "@/components/shared/DialogWithContent";
+import TimeSheetForm from "@/components/timesheets/TimeSheetForm";
 
 
 export default function TimeSheets() {
   return (
     <section>
       <PageHeader pageTitle="Time Sheets">
-        <Button>Add New Time Sheet</Button>
+        <DialogWithContent buttonTitle='Add New Time Sheet' title='New Time Sheet'>
+          <TimeSheetForm />
+        </DialogWithContent>
       </PageHeader>
 
       <EmptyDataPlaceholder
