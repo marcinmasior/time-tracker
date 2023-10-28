@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,8 +31,36 @@ const TimeSheetForm: React.FC<TimeSheetFormProps> = ({id, onClose}) => {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    if (onClose) onClose();
+    const response = await fetch('/api/timesheets', {
+      method: 'POST',
+      body: JSON.stringify(values)
+    })
+
+    if(!response) {
+      toast({
+        title: 'Something went wrong! Try again later.',
+        variant: "destructive"
+      })
+      return;
+    }
+
+    const jsonData =  await response.json();
+
+    if(jsonData.status === 'success'){
+      toast({
+        title: jsonData.message,
+        description: jsonData.description,
+      })
+
+      router.refresh();
+      if (onClose) onClose();
+    }else{
+      toast({
+        title: jsonData.message,
+        description: jsonData.description,
+        variant: "destructive"
+      })
+    }
   }
 
   return (

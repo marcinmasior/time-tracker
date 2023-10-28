@@ -1,13 +1,28 @@
-"use client"
-
 import PageHeader from "@/components/shared/page/PageHeader";
-import {Button} from "@/components/ui/button";
-import EmptyDataPlaceholder from "@/components/shared/data/EmptyDataPlaceholder";
 import DialogWithContent from "@/components/shared/DialogWithContent";
 import TimeSheetForm from "@/components/timesheets/TimeSheetForm";
+import TimeSheetsTabel from "@/components/timesheets/TimeSheetsTabel";
+import DataHandlerServer from "@/components/shared/data/DataHandlerServer";
+import { headers } from "next/headers"
+
+async function getData() {
+  const res = await fetch(`${process.env.BASE_URL}/api/timesheets`, {
+    method: "GET",
+    headers: headers(),
+    cache: 'no-cache'
+  })
+
+  if (!res.ok) {
+    return { status: 'error', message: 'Failed to fetch data', records: []}
+  }
+
+  return res.json()
+}
+
+export default async function TimeSheets() {
+  const data = await getData()
 
 
-export default function TimeSheets() {
   return (
     <section>
       <PageHeader pageTitle="Time Sheets">
@@ -16,10 +31,9 @@ export default function TimeSheets() {
         </DialogWithContent>
       </PageHeader>
 
-      <EmptyDataPlaceholder
-        title="No Timesheets Found"
-        description="You haven't added any timesheets yet. Start by adding your first timesheet."
-      />
+      <DataHandlerServer status={data.status} message={data.message} data={data.records}>
+        <TimeSheetsTabel timeSheets={data.records} />
+      </DataHandlerServer>
     </section>
-  )
+  );
 }

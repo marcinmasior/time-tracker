@@ -37,19 +37,19 @@ const SignUpForm: React.FC = () => {
       body: JSON.stringify(values)
     })
 
-    const resData =  await response.json();
+    const jsonData =  await response.json();
 
-    if(resData.status === 'success'){
+    if(jsonData.status === 'success'){
       router.push('/auth/login');
 
       toast({
-        title: resData.message,
-        description: resData.description,
+        title: jsonData.message,
+        description: jsonData.description,
       })
     }else{
       toast({
-        title: resData.message,
-        description: resData.description,
+        title: jsonData.message,
+        description: jsonData.description,
         variant: "destructive"
       })
     }
