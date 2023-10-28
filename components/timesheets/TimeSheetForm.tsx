@@ -15,11 +15,10 @@ const formSchema = z.object({
 });
 
 interface TimeSheetFormProps {
-  id?: number,
   onClose?: () => void
 }
 
-const TimeSheetForm: React.FC<TimeSheetFormProps> = ({id, onClose}) => {
+const TimeSheetForm: React.FC<TimeSheetFormProps> = ({onClose}) => {
   const { toast } = useToast()
   const router = useRouter();
 

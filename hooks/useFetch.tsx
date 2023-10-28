@@ -23,7 +23,7 @@ function useFetch<T>(url: string): UseFetchResponse<T> {
         }
 
         const result = await response.json();
-        setData(result.records);
+        setData(result.data);
         setLoading(false);
       } catch (err) {
         setError(err as Error);

@@ -13,7 +13,7 @@ async function getData() {
   })
 
   if (!res.ok) {
-    return { status: 'error', message: 'Failed to fetch data', records: []}
+    return { status: 'error', message: 'Failed to fetch data', data: []}
   }
 
   return res.json()
@@ -31,8 +31,8 @@ export default async function TimeSheets() {
         </DialogWithContent>
       </PageHeader>
 
-      <DataHandlerServer status={data.status} message={data.message} data={data.records}>
-        <TimeSheetsTabel timeSheets={data.records} />
+      <DataHandlerServer status={data.status} message={data.message} data={data.data}>
+        <TimeSheetsTabel timeSheets={data.data} />
       </DataHandlerServer>
     </section>
   );

@@ -21,7 +21,7 @@ export async function GET(request: Request, response: Response) {
       where: {userId: currentUser.id}
     })
 
-    return Response.json({ records: timeSheets, status: 'success' })
+    return Response.json({ data: timeSheets, status: 'success' })
   }catch (e) {
     console.log({e})
   }
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     })
 
 
-    return NextResponse.json({ timeSheet, status: 'success', message: 'Time Sheet has been created' })
+    return NextResponse.json({ data: timeSheet, status: 'success', message: 'Time Sheet has been created' })
   }catch (e) {
     console.log({e})
   }
