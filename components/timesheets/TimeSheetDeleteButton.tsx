@@ -15,7 +15,7 @@ const TimeSheetDeleteButton: React.FC<TimeSheetDeleteButtonProps> = ({id}) => {
   const router = useRouter();
 
   const handleDeleteClick = async () => {
-    const response = await fetch(`/api/timesheets/${id}`, {
+    const response = await fetch(`/api/dashboard/timesheets/${id}`, {
         method: "DELETE"
       }
     )

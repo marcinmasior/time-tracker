@@ -2,18 +2,12 @@ import {prisma} from "@/prisma/client";
 import {NextResponse} from "next/server";
 import authOptions from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
+import getSessionUser from "@/lib/getSessionUser";
 
 export async function GET(request: Request, response: Response) {
 
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
-      return NextResponse.json({ records: null, status: 'error', message: 'You are not logged in.' })
-    }
-
-    const currentUser = session.user;
-
+    const currentUser = await getSessionUser();
     if (!currentUser) {
       return NextResponse.json({ records: null, status: 'error', message: 'You are not logged in.' })
     }
@@ -33,14 +27,7 @@ export async function GET(request: Request, response: Response) {
 
 export async function PUT(request: Request, response: Response) {
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
-      return NextResponse.json({ records: null, status: 'error', message: 'You are not logged in.' })
-    }
-
-    const currentUser = session.user;
-
+    const currentUser = await getSessionUser();
     if (!currentUser) {
       return NextResponse.json({ records: null, status: 'error', message: 'You are not logged in.' })
     }
@@ -62,14 +49,7 @@ export async function PUT(request: Request, response: Response) {
 
 export async function DELETE(request: Request, response: Response) {
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session) {
-      return NextResponse.json({ records: null, status: 'error', message: 'You are not logged in.' })
-    }
-
-    const currentUser = session.user;
-
+    const currentUser = await getSessionUser();
     if (!currentUser) {
       return NextResponse.json({ records: null, status: 'error', message: 'You are not logged in.' })
     }

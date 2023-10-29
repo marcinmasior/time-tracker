@@ -22,7 +22,7 @@ export default function Login() {
         <LoginForm></LoginForm>
       </CardContent>
       <CardFooter className="flex-col gap-3">
-        <div>Don't have an account?</div>
+        <div>Don&apos;t have an account?</div>
         <div><Link href='/auth/signup'>Sign Up here</Link></div>
       </CardFooter>
     </Card>

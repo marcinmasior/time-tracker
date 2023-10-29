@@ -6,10 +6,9 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 
 async function getData() {
-  const res = await fetch(`${process.env.BASE_URL}/api/timesheets`, {
+  const res = await fetch(`${process.env.BASE_URL}/api/dashboard/timesheets`, {
     method: "GET",
-    headers: headers(),
-    cache: 'no-cache',
+    headers: headers()
   })
 
   if (!res.ok) {

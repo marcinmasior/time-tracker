@@ -32,7 +32,7 @@ const TimeSheetForm: React.FC<TimeSheetFormProps> = ({timeSheet=null}) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const method = timeSheet ? 'PUT' : 'POST';
-    const url = timeSheet ? `/api/timesheets/${timeSheet.id}` : '/api/timesheets';
+    const url = timeSheet ? `/api/dashboard/timesheets/${timeSheet.id}` : '/api/dashboard/timesheets';
 
     const response = await fetch(url, {
       method: method,

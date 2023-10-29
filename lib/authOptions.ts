@@ -2,7 +2,7 @@ import {AuthOptions} from "next-auth";
 import {PrismaAdapter} from "@auth/prisma-adapter";
 import {prisma} from "@/prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
-import {comparePassword} from "@/utils/hashing";
+import {comparePassword} from "@/lib/hashing";
 
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),

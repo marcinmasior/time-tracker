@@ -6,10 +6,9 @@ import {headers} from "next/headers";
 
 async function getData(timeSheetId: string) {
 
-  const res = await fetch(`${process.env.BASE_URL}/api/timesheets/${timeSheetId}`, {
+  const res = await fetch(`${process.env.BASE_URL}/api/dashboard/timesheets/${timeSheetId}`, {
     method: "GET",
-    headers: headers(),
-    cache: 'no-cache',
+    headers: headers()
   })
 
   if (!res.ok) {
