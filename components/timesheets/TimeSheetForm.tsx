@@ -9,31 +9,38 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import { useToast} from "@/components/ui/use-toast";
+import {TimeSheet} from ".prisma/client";
 
 const formSchema = z.object({
   name: z.string().min(1)
 });
 
 interface TimeSheetFormProps {
-  onClose?: () => void
+  timeSheet?: TimeSheet
 }
 
-const TimeSheetForm: React.FC<TimeSheetFormProps> = ({onClose}) => {
+const TimeSheetForm: React.FC<TimeSheetFormProps> = ({timeSheet=null}) => {
   const { toast } = useToast()
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-    }
-  })
+      name: timeSheet ? timeSheet.name : '',
+    },
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch('/api/timesheets', {
-      method: 'POST',
-      body: JSON.stringify(values)
-    })
+    const method = timeSheet ? 'PUT' : 'POST';
+    const url = timeSheet ? `/api/timesheets/${timeSheet.id}` : '/api/timesheets';
+
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    });
 
     if(!response) {
       toast({
@@ -50,9 +57,8 @@ const TimeSheetForm: React.FC<TimeSheetFormProps> = ({onClose}) => {
         title: jsonData.message,
         description: jsonData.description,
       })
-
+      router.push('/dashboard/timesheets')
       router.refresh();
-      if (onClose) onClose();
     }else{
       toast({
         title: jsonData.message,
@@ -79,8 +85,7 @@ const TimeSheetForm: React.FC<TimeSheetFormProps> = ({onClose}) => {
           )}
         />
         <div className="flex gap-3">
-          {onClose ? <Button type="button" variant="secondary" className="w-full" onClick={onClose}>Cancel</Button> : null}
-          <Button type="submit" className="w-full">Add</Button>
+          <Button type="submit" className="w-full">{timeSheet ? 'Update' : 'Create'}</Button>
         </div>
       </form>
     </Form>
