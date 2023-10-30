@@ -17,7 +17,12 @@ export default function Navbar() {
           >
             Your Time Sheets
           </Link>
-
+          <Link
+            href="/dashboard/projects"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+          >
+            Projects
+          </Link>
         </nav>
         <div className="ml-auto flex items-center space-x-4">
           <UserMenu />

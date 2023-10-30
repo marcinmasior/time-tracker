@@ -43,10 +43,11 @@ const LoginForm: React.FC = () => {
         variant: "destructive"
       })
     }else{
-      router.push('/dashboard')
       toast({
         title: 'Welcome! You have logged in successfully'
       })
+      router.push('/dashboard')
+      router.refresh();
     }
   }
 

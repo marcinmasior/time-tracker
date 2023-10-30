@@ -18,11 +18,22 @@ model User {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   TimeSheet TimeSheet[]
+  Project   Project[]
 }
 
 model TimeSheet {
   id        String   @id @default(cuid())
   name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
